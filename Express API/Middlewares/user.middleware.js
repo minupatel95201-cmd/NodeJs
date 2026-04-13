@@ -1,3 +1,23 @@
 const userModel = require("../Models/user.models");
+const jwt = require("jsonwebtoken");
 
-module.exports = userModel
+module.exports.authUser = async (req, res, next) =>{
+    const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        return res.status(400).json({ message: "Token Expire Re-SignIn"});
+    }
+
+    try {
+        const Decoded = jwt.verify(token, process.env.JWT_SECRET);
+        let user = await userModel.findOne({ _id: Decoded._id });
+
+        if (!user) {
+            return res.status(401).json({ message: "Unathorized"});
+        }
+        res.status(200).json({ user })
+        return next();
+    } catch (error) {
+      return res.status(500).json({ error });  
+    }
+}

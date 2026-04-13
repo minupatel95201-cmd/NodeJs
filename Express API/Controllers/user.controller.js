@@ -9,7 +9,7 @@ module.exports.registerUser = async(req, res)=>{
     const error = validationResult(req);
 
     if(!error.isEmpty()){
-        return res.status(400),json({error: error.array()});
+        return res.status(400).json({error: error.array()});
     }
 
     const{ username, email, password } = req.body;
@@ -52,6 +52,12 @@ module.exports.loginUser = async (req, res)=>{
     }
 
     const token = checkUser.generateAuthToken();
+    res.cookie("token", token);
 
     res.status(200).json({ token, checkUser});
 };
+
+
+module.exports.profile = (req, res)=>{
+    res.status(200).json({ user: req.user});
+}
