@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { DataContext } from "../context/UserContext";
 const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const {setCenterData} = useContext( DataContext )
   const navigate = useNavigate();
 
   //api fetch -- data send
@@ -20,6 +22,7 @@ const Login = () => {
       if(response.status === 200){
         const data = response.data;
         localStorage.setItem("token", data.token);
+        setCenterData(data.checkUser);
         navigate("/profile");
       }
       setEmail("");
