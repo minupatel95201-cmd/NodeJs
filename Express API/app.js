@@ -7,9 +7,11 @@ const db = require("./Configs/db");
 const cookieParser = require("cookie-parser");
 //Routes
 const userRouter = require("./Routes/web/v1/user.route");
-const adminRouter = require("./Routes/web/v1/admin.route")
+const adminRouter = require("./Routes/web/v1/admin.route");
+const ProductRouter = require("./Routes/web/v1/Product.route");
 
 app.use(express.json());
+
 app.use(express.urlencoded({ extended : true}));
 app.use(cookieParser());
 app.set(db());
@@ -30,6 +32,7 @@ app.get("/", (req, res)=>{
 
 app.use("/user", userRouter); // localhost: 3000/ user/ register
 app.use("/admin", adminRouter); // --> url/admin/all/user
+app.use("/product", ProductRouter);
 
 app.listen(PORT, ()=>{
     console.log(`Server Is Running On ${PORT}`);

@@ -2,8 +2,27 @@
 
 const userModel = require("../Models/user.models");
 
+//get All user
 module.exports.getAllUser = async () => {
     const allUser = await userModel.find();
 
     return allUser;
-}
+};
+
+//delete user
+module.exports.deleteUser = async (id) => {
+    const user = await userModel.findOneAndDelete({_id: id});
+
+    return user;
+};
+
+//create manager
+module.exports.createManager = async ({ username, email, password, role})=>{
+    if (!username || !email || !password) {
+        throw new Error("All Filed Are Required");
+    }
+
+    const user = await userModel.create({ username, email, password, role: "manager"});
+
+    return user;
+};
