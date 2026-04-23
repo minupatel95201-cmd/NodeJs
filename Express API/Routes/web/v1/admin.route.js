@@ -13,11 +13,8 @@ router.get('/all/user',userMiddlewre.authUser, Adminmiddleware.authAdmin, adminC
 //Delete User
 router.delete("/user/:id", userMiddlewre.authUser, Adminmiddleware.authAdmin, adminController.deleteUser);
 
-// manager Creation
-router.post("/manager/create", [
-    body("username").isLength({min: 4}).withMessage("username must be 4 characters long"),
-    body("email").isEmail().withMessage("Enter Valid Email"),
-    body("password").isLength({min: 6}).withMessage("password must be 6 characters long"), 
-], userMiddlewre.authUser, Adminmiddleware.authAdmin, adminController.registerManager);
+// update role --> create manager
+// router --> service --> controller --> call into router
+router.put("/user/:id/role", userMiddlewre.authUser, Adminmiddleware.authAdmin, adminController.UpdateUserRole);
 
 module.exports = router;

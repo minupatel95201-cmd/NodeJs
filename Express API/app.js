@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./Routes/web/v1/user.route");
 const adminRouter = require("./Routes/web/v1/admin.route");
 const ProductRouter = require("./Routes/web/v1/Product.route");
+const ChatRouter = require("./Routes/web/v1/Chat.route");
+const CartRouter = require("./Routes/web/v1/cart.route");
 
 app.use(express.json());
 
@@ -33,6 +35,8 @@ app.get("/", (req, res)=>{
 app.use("/user", userRouter); // localhost: 3000/ user/ register
 app.use("/admin", adminRouter); // --> url/admin/all/user
 app.use("/product", ProductRouter);
+app.use("/bot", ChatRouter);
+app.use("/cart", CartRouter);
 
 app.listen(PORT, ()=>{
     console.log(`Server Is Running On ${PORT}`);

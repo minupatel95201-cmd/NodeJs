@@ -35,7 +35,7 @@ module.exports.loginUser = async (req, res)=>{
 
     if (!error.isEmpty()) {
         return res.status(400).json({ error: error.array() });
-    }
+    };
 
     const { email, password } = req.body;
 
@@ -43,13 +43,13 @@ module.exports.loginUser = async (req, res)=>{
 
     if (!checkUser) {
         return res.status(401).json({message: "Email Is Invalid"});
-    }
+    };
 
     const isMatch = await checkUser.comparePassword(password);
 
     if (!isMatch) {
         return res.status(400).json({ message: "Wrong Password"});
-    }
+    };
 
     const token = checkUser.generateAuthToken();
     res.cookie("token", token);
@@ -64,7 +64,7 @@ module.exports.profile = (req, res)=>{
 
 module.exports.logout = (req, res) => {
     res.clearCookie("token");
-    res.status(200).json({ message: "User LogOut Successfully !!"})
+    res.status(200).json({ message: "User LogOut Successfully !!"});
 };
 
 module.exports.updateUser = async (req, res) => {
@@ -76,4 +76,33 @@ module.exports.updateUser = async (req, res) => {
     const updateUser = await userService.updateUser({ userId, username, email });
 
     res.status(200).json({ message: "User Data Updated Successfully", updateUser});
-}
+};
+
+// forget password --> send email for reset password
+module.exports.forgatePassword = async (req, res) => {
+    try {
+      const {email} = req.body;
+
+       await userService.forgetPassword( email );
+
+       return res.status(200).json({ message: "Email Send Your Registed Mail Successfully. Check Your Mail" });
+
+    } catch (error) {
+       return res.status(400).json({ message: error.message }); 
+    };
+};
+
+//reset password
+module.exports.resetPassword = async (req, res) => {
+    try {
+       const token = req.params.token;
+       const{ newPassword } = req.body;
+       
+       await userService.resetPassword({ token, newPassword });
+
+       return res.status(200).json({message: "Password Reset Successfully"});
+
+    } catch (error) {
+        return res.status(400).json({ message: error.message});
+    };
+};
