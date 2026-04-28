@@ -81,7 +81,8 @@ const Profile = () => {
                 <p className="text-blue-500 font-medium">Frontend Developer</p>
               </div>
 
-              {/* Info Cards */}
+              {/* Info Cards */}+
+              
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-8">
                 <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition">
                   <Mail className="text-blue-500" />

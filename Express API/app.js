@@ -11,6 +11,8 @@ const adminRouter = require("./Routes/web/v1/admin.route");
 const ProductRouter = require("./Routes/web/v1/Product.route");
 const ChatRouter = require("./Routes/web/v1/Chat.route");
 const CartRouter = require("./Routes/web/v1/cart.route");
+const OrderRouter = require("./Routes/web/v1/order.route");
+const wishlistRouter = require("./Routes/web/v1/Wishlist.route");
 
 app.use(express.json());
 
@@ -37,6 +39,8 @@ app.use("/admin", adminRouter); // --> url/admin/all/user
 app.use("/product", ProductRouter);
 app.use("/bot", ChatRouter);
 app.use("/cart", CartRouter);
+app.use("/order", OrderRouter);
+app.use("/wishlist", wishlistRouter);
 
 app.listen(PORT, ()=>{
     console.log(`Server Is Running On ${PORT}`);
