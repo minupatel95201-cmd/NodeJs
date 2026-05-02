@@ -2,32 +2,63 @@ const cartService = require("../Services/cart.service");
 const cartModel = require("../Models/cart.model");
 
 //Add To cart
-module.exports.AddToCart = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { item } = req.body;
+module.exports.AddToCart =
+async (req, res) => {
 
-        // bug: add alredy add product
-        const Exist = await cartModel.findOne({ userId });
-        const ExistProduct = Exist.items.map((val) => {
-            const ids = val.productId;
-            return ids;
-        });
+  try {
 
-        ExistProduct.forEach((e) => {
-            if(e.equals(item.productId)){
-                return res.status(400).json({message: "Product Alredy Is Add Into Cart"});
-            };
-        });
-       
- 
-        const cart = await cartService.addToCart({ userId, item});
- 
-        return res.status(200).json({ message: "Add Item To Cart Successfully", cart });
-        
-    } catch (error) {
-       return res.status(400).json({ message: error.message }); 
-    };
+    const userId = req.user.id;
+
+    const { item } = req.body;
+
+    let cart =
+      await cartModel.findOne({
+        userId,
+      });
+
+    if (!cart) {
+
+      cart = new cartModel({
+
+        userId,
+
+        items: [],
+      });
+    }
+
+    const alreadyExists =
+      cart.items.find((i) =>
+
+        i.productId.toString() ===
+        item.productId
+      );
+
+    if (alreadyExists) {
+
+      alreadyExists.quantity += 1;
+
+    } else {
+
+      cart.items.push(item);
+    }
+
+    await cart.save();
+
+    return res.status(200).json({
+
+      message:
+        "Added To Cart",
+
+      cart,
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+
+      message: error.message,
+    });
+  }
 };
 
 // Get Cart

@@ -11,4 +11,7 @@ let CartSchema = mongoose.Schema({
         quantity: Number,
     }],
 });
-module.exports = mongoose.mongoose.model("card", CartSchema);
+module.exports = mongoose.model(
+  "cart",
+  CartSchema
+);

@@ -31,6 +31,14 @@ module.exports.CreateOrder = async ({ userId, items }) => {
 };
 
 //get order history or show order
-module.exports.GetOrder = async(userId) => {
-      return await orderModel.findOne({userId});
+module.exports.GetOrder =
+async(userId) => {
+
+  return await orderModel
+
+    .find({ userId })
+
+    .populate(
+      "items.productId"
+    );
 };

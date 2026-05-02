@@ -11,8 +11,17 @@ module.exports.addToCart = async ({ userId, item }) => {
 };
 
 // Get Cart
-module.exports.GetCart = async (userId) => {
-    return await cartModel.find({ userId });
+module.exports.GetCart = async (
+  userId
+) => {
+
+  return await cartModel
+
+    .findOne({ userId })
+
+    .populate(
+      "items.productId"
+    );
 };
 
 // Delete Single Product From Cart

@@ -17,3 +17,68 @@ module.exports.AddToWishlist = async (req, res) => {
       return res.status(400).json({message: error.message});  
     };
 };
+
+// get wishlist
+
+module.exports.GetWishlist = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const userId = req.user.id;
+
+    const wishlist =
+      await whishlistSrvice.GetWishlist(
+        userId
+      );
+
+    return res.status(200).json({
+      wishlist,
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+
+
+// remove wishlist item
+
+module.exports.RemoveWishlist =
+async (req, res) => {
+
+  try {
+
+    const userId = req.user.id;
+
+    const itemId = req.params.id;
+
+    await whishlistSrvice.RemoveWishlist({
+
+      userId,
+
+      itemId,
+
+    });
+
+    return res.status(200).json({
+
+      message: "Removed Successfully",
+
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+
+      message: error.message,
+
+    });
+  }
+};

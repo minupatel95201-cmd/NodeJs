@@ -6,7 +6,10 @@ let OrderSchema = mongoose.Schema({
     },
 
     items:[{
-        productId: String,
+       productId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "product"
+},
         quantity: Number,
         price: Number,
         total: Number
